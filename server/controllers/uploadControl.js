@@ -1,10 +1,9 @@
 import Upload from "../models/uploadModel.js";
-import mongoose from "mongoose";
 import { cloudinary } from "../utils/cloudinary.js";
 
 const getUploads = async (req, res) => {
-  const upload = await Upload.find({}).sort({ createdAt: -1 });
-  res.status(200).json(upload);
+  const uploads = await Upload.find({}).sort({ createdAt: -1 });
+  res.status(200).json(uploads);
 };
 
 // getSingleUpload = async (req, res) => {
@@ -20,16 +19,10 @@ const createUpload = async (req, res) => {
       name: result.original_filename,
       imageUrl: result.secure_url,
     });
-    return res.status(201).json(
-      {
-        success: true,
-        message: "Image uploaded successfully",
-        Data: result,
-      },
-      console.log(JSON.stringify(upload))
-    );
+    return res.status(201).json(upload, console.log(upload));
   } catch (error) {
     res.status(400).json({ error: error.message });
+    console.error(JSON.stringify(error));
   }
 };
 

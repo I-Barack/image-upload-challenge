@@ -6,6 +6,10 @@ import mongoose from "mongoose";
 
 const app = express();
 
+app.get("/", (req, res) => {
+  res.send("App is running...");
+});
+
 app.use(express.json());
 
 app.use((req, res, next) => {
