@@ -23,6 +23,6 @@ const PORT = process.env.PORT || 5000;
 
 dbConnect().then(() => {
   app.listen(PORT, () => {
-    // console.log(`Connected to DB and running on port ${PORT}`);
+    console.log(`Connected to DB and running on port ${PORT}`);
   });
 });
