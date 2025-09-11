@@ -22,7 +22,11 @@ app.use("/uploads", uploadRoutes);
 const PORT = process.env.PORT || 5000;
 
 dbConnect().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Connected to DB and running on port ${PORT}`);
-  });
+  try {
+    app.listen(PORT, () => {
+      console.log(`Connected to DB and running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
