@@ -5,7 +5,7 @@ import {
   getSingleUpload,
   getUploads,
 } from "../controllers/uploadControl.js";
-import upload from "../middlewares/mutler.js";
+import upload from "../middlewares/multer.js";
 
 const router = express.Router();
 
