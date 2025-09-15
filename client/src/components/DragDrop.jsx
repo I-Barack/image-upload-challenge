@@ -10,6 +10,9 @@ const DragDrop = () => {
   const [loading, setLoading] = useState(false);
   const { uploads, dispatch } = useUploadContext();
   const { mode } = useUploadContext();
+  const server =
+    import.meta.env.SERVER_URL ||
+    "https://image-upload-challenge-1.onrender.com";
 
   const onDrop = async (acceptedfiles) => {
     const file = acceptedfiles[0];
@@ -18,7 +21,7 @@ const DragDrop = () => {
 
     setLoading(true);
     try {
-      const res = await axios.post("api/uploads", formData, {
+      const res = await axios.post(`${server}/api/uploads`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -33,7 +36,7 @@ const DragDrop = () => {
   useEffect(() => {
     const fetchUploads = async () => {
       try {
-        const res = await axios.get("api/uploads");
+        const res = await axios.get(`${server}/api/uploads`);
         console.log(res.data);
 
         dispatch({ type: "SET_UPLOADS", payload: res.data });
