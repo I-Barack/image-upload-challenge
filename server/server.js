@@ -17,7 +17,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/uploads", uploadRoutes);
+app.use("api/uploads", uploadRoutes);
 
 const PORT = process.env.PORT || 5000;
 

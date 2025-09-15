@@ -18,7 +18,7 @@ const DragDrop = () => {
 
     setLoading(true);
     try {
-      const res = await axios.post("/uploads", formData, {
+      const res = await axios.post("api/uploads", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -33,7 +33,7 @@ const DragDrop = () => {
   useEffect(() => {
     const fetchUploads = async () => {
       try {
-        const res = await axios.get("/uploads");
+        const res = await axios.get("api/uploads");
         console.log(res.data);
 
         dispatch({ type: "SET_UPLOADS", payload: res.data });

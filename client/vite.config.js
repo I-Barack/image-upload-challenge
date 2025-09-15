@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     open: true,
     proxy: {
-      "/uploads": "https://image-upload-challenge-1.onrender.com",
+      "api/uploads": "https://image-upload-challenge-1.onrender.com",
     },
   },
   plugins: [react(), tailwindcss()],

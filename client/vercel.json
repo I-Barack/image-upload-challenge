@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "api/uploads",
+      "destination": "https://image-upload-challenge-1.onrender.com/api/uploads"
+    }
+  ]
+}
