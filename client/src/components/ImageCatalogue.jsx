@@ -3,7 +3,7 @@ import { useUploadContext } from "../hooks/useUploadContext";
 
 const ImageCatalogue = ({ upload }) => {
   const { dispatch } = useUploadContext();
-  const server = import.meta.env.SERVER_URL;
+  const server = import.meta.env.VITE_SERVER_URL;
 
   const deleteHandler = async () => {
     try {

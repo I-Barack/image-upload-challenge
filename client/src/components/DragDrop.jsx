@@ -13,7 +13,7 @@ const DragDrop = () => {
   const [latestUpload, setLatestUpload] = useState(null);
   const { uploads, dispatch } = useUploadContext();
   const { mode } = useUploadContext();
-  const server = import.meta.env.SERVER_URL;
+  const server = import.meta.env.VITE_SERVER_URL;
 
   const onDrop = async (acceptedfiles) => {
     const file = acceptedfiles[0];
