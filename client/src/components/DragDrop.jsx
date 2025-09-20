@@ -13,7 +13,7 @@ const DragDrop = () => {
   const [latestUpload, setLatestUpload] = useState(null);
   const { uploads, dispatch } = useUploadContext();
   const { mode } = useUploadContext();
-  console.log(uploads);
+  const server = import.meta.env.SERVER_URL;
 
   const onDrop = async (acceptedfiles) => {
     const file = acceptedfiles[0];
@@ -23,7 +23,7 @@ const DragDrop = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post(`/api/uploads`, formData, {
+      const res = await axios.post(`${server}/api/uploads`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (ProgressEvent) => {
           const percentCompleted = Math.round(
@@ -44,9 +44,7 @@ const DragDrop = () => {
   useEffect(() => {
     const fetchUploads = async () => {
       try {
-        const res = await axios.get(`/api/uploads`);
-        console.log(res.data);
-
+        const res = await axios.get(`${server}/api/uploads`);
         dispatch({ type: "SET_UPLOADS", payload: res.data });
       } catch (err) {
         console.error("Failed:", err);

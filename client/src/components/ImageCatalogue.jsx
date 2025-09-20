@@ -3,10 +3,11 @@ import { useUploadContext } from "../hooks/useUploadContext";
 
 const ImageCatalogue = ({ upload }) => {
   const { dispatch } = useUploadContext();
+  const server = import.meta.env.SERVER_URL;
 
   const deleteHandler = async () => {
     try {
-      const res = await axios.delete(`api/uploads/${upload._id}`);
+      const res = await axios.delete(`${server}api/uploads/${upload._id}`);
       dispatch({ type: "DELETE_UPLOAD", payload: res.data });
     } catch (error) {
       console.log("Couldn't delete image", error);
