@@ -3,6 +3,7 @@ import cors from "cors";
 
 import express from "express";
 import uploadRoutes from "./routes/upload.js";
+import userRoutes from "./routes/user.js";
 import dbConnect from "./configs/dbConnect.js";
 
 const app = express();
@@ -25,6 +26,8 @@ app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
 });
+
+app.use("/api/user", userRoutes);
 
 app.use("/api/uploads", uploadRoutes);
 

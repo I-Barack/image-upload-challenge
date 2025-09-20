@@ -19,6 +19,7 @@ const getSingleUpload = async (req, res) => {
   if (!upload) {
     return res.status(402).json({ error: "Image does not exist" });
   }
+  return res.status(201).json(upload);
 };
 
 const createUpload = async (req, res) => {

@@ -2,17 +2,18 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { FaRotate } from "react-icons/fa6";
 import { useUploadContext } from "../hooks/useUploadContext";
 import UploadSVG from "../assets/exit.svg";
 import ImageCatalogue from "./ImageCatalogue";
 
 const DragDrop = () => {
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [latestUpload, setLatestUpload] = useState(null);
   const { uploads, dispatch } = useUploadContext();
   const { mode } = useUploadContext();
-  const server =
-    import.meta.env.SERVER_URL ||
-    "https://image-upload-challenge-1.onrender.com";
+  console.log(uploads);
 
   const onDrop = async (acceptedfiles) => {
     const file = acceptedfiles[0];
@@ -20,11 +21,18 @@ const DragDrop = () => {
     formData.append("image", file);
 
     setLoading(true);
-    try {
-      const res = await axios.post(`${server}/api/uploads`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
 
+    try {
+      const res = await axios.post(`/api/uploads`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+        onUploadProgress: (ProgressEvent) => {
+          const percentCompleted = Math.round(
+            (ProgressEvent.loaded * 100) / ProgressEvent.total
+          );
+          setProgress(percentCompleted);
+        },
+      });
+      setLatestUpload(res.data.imageUrl);
       dispatch({ type: "CREATE_UPLOADS", payload: res.data });
     } catch (err) {
       console.error("Upload failed", err.response?.data || err.message);
@@ -36,7 +44,7 @@ const DragDrop = () => {
   useEffect(() => {
     const fetchUploads = async () => {
       try {
-        const res = await axios.get(`${server}/api/uploads`);
+        const res = await axios.get(`/api/uploads`);
         console.log(res.data);
 
         dispatch({ type: "SET_UPLOADS", payload: res.data });
@@ -62,9 +70,30 @@ const DragDrop = () => {
         } `}
       >
         {loading ? (
-          <div className="w-[40%] h-1/2 bg-white absolute top-[50%] left-[50%] transform -translate-x-[50%] -translate-y-[65%] cursor-pointer flex justify-center items-center border-2 border-dashed border-gray-300 rounded-lg shadow-lg">
-            <p className="font-bold">Loading...</p>
-            <div></div>
+          <div className="w-[40%] h-1/2 px-2 bg-white absolute top-[50%] left-[50%] transform -translate-x-[50%] -translate-y-[65%] cursor-pointer flex flex-col justify-center items-center border-2 border-dashed border-gray-300 rounded-lg shadow-lg gap-2">
+            <span className="font-bold">Loading...</span>
+            <div className="w-full h-1 border rounded-sm">
+              <div
+                className={`bg-amber-800 h-1 rounded-sm transition-all duration-700 ease-in-out`}
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+            <span>{progress}%</span>
+          </div>
+        ) : !loading && latestUpload ? (
+          <div
+            className={`w-[40%] h-1/2 absolute top-[50%] left-[50%] transform -translate-x-[50%] -translate-y-[65%] cursor-pointer flex flex-col gap-8 justify-center items-center rounded-lg shadow-lg transition duration-700 ${
+              mode ? "bg-[#4d5562] border-[#e5e7eb]" : "bg-[#ffffff]"
+            }`}
+          >
+            <img src={latestUpload} alt="Latest" />
+            <button
+              onClick={() => {
+                setLatestUpload(null);
+              }}
+            >
+              <FaRotate size={30} />
+            </button>
           </div>
         ) : (
           <div
