@@ -8,17 +8,16 @@ export default ({ mode }) => {
 
   return defineConfig({
     // For dev
-
-    // server: {
-    //   open: true,
-    //   proxy: {
-    //     "/api/uploads": {
-    //       target: env.SERVER_URL,
-    //       changeOrigin: true,
-    //       secure: false,
-    //     },
-    //   },
-    // },
+    server: {
+      open: true,
+      proxy: {
+        "/api/uploads": {
+          target: env.SERVER_URL,
+          changeOrigin: true,
+          secure: false,
+        },
+      },
+    },
     plugins: [react(), tailwindcss()],
   });
 };
